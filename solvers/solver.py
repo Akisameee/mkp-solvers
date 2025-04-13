@@ -7,7 +7,6 @@ class BaseSolver(ABC):
     def __init__(self, max_iter: int):
         '''
         参数:
-        problem: MKProblem实例
         max_iter: 最大迭代次数
         '''
         self.max_iter = max_iter

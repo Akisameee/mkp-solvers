@@ -5,7 +5,7 @@ class MKPInstance:
     def __init__(self, n, m, p, r, b, optimal=0):
         '''
         参数:
-        n: 变量数量
+        n: 物品数量
         m: 约束数量
         p: 收益数组 (n,)
         r: 资源消耗矩阵 (m, n)
@@ -14,9 +14,9 @@ class MKPInstance:
         '''
         self.n = n
         self.m = m
-        self.p = np.array(p)
-        self.r = np.array(r)
-        self.b = np.array(b)
+        self.p = np.array(p, dtype = np.float64)
+        self.r = np.array(r, dtype = np.float64)
+        self.b = np.array(b, dtype = np.float64)
         self.optimal = optimal
 
     def evaluate(self, solution):

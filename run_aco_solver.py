@@ -7,8 +7,7 @@ aco_params = {
     'num_ants': 10,
     'decay': 0.1,
     'alpha': 1.0,
-    'beta': 2.0,
-    'initial_pheromone': 1.0,
+    'beta': 1.0,
     'n_early_stop': 200
 }
 
@@ -28,18 +27,9 @@ if __name__ == '__main__':
     data_path = './datas/mknap1.txt'
     instances = read_mkp_file(data_path)
 
-    # mkp_solver = DynamicProgramming()
-    # mkp_solver = SimulatedAnnealing(
-    #     max_iter = 1000,
-    #     initial_temp = 1000,
-    #     cooling_rate = 0.95,
-    #     temp_iter = 100
-    # )
-    # mkp_solver = GeneticAlgorithm()
-    # mkp_solver = ParticleSwarmOptimizer()
-    mkp_solver = AntColonyOptimizer()
+    mkp_solver = AntColonyOptimizer(**aco_params)
 
     for idx, instance in enumerate(instances):
         solution, value, stats = mkp_solver.run(instance)
         print(f'Problem: {idx + 1}\nSolution: {solution}\nValue: {value}\nOptimal: {instance.optimal}')
-        print(f'Stats: {stats}\n')
+        # print(f'Stats: {stats}\n')
