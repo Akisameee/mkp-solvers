@@ -1,6 +1,9 @@
 import json
 import os
 
+import sys
+sys.path.insert(0, '.')
+
 from solvers import *
 from utils import *
 from mkp_instance import *
@@ -65,7 +68,6 @@ if __name__ == '__main__':
             }
 
             with open(
-                f'./grid_search_res/{data_name[0]}_{data_name[1]}_{decay}_{beta}.json', 'w'
+                f'./grid_search_res/{data_name[0]}_{data_name[1]}_dacay_beta_{decay}_{beta}.json', 'w'
             ) as f:
                 json.dump(result, f, indent = 4)
-
