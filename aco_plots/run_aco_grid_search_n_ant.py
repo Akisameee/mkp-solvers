@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
     n_episode = 10
     num_ant_grid = [1, 5, 10, 20, 50]
+    num_ant_grid = [3, 15, 50]
     for num_ant in num_ant_grid:
         offset_params = aco_params.copy()
         offset_params['num_ants'] = num_ant

@@ -21,7 +21,3 @@ from .PSO import (
 from .ACO import (
     AntColonyOptimizer
 )
-
-from .ACO_Altered import (
-    AntColonyOptimizer_Altered
-)

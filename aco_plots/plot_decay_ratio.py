@@ -7,36 +7,35 @@ def get_decay_ratio_search_res(dir_path):
 
     res = []
     for filename in os.listdir(dir_path):
-        if 'decay_beta' in filename and filename.endswith('.json'):  # 假设是JSON文件
+        if 'decay_beta' in filename and filename.endswith('.json'):
             with open(os.path.join(dir_path, filename), 'r') as f:
                 res.append(json.load(f))
     return res
 
-def plot_heatmap(decay_grid, ratio_grid, values, save_path):
-    # 创建图形
+def plot_heatmap(decay_grid, ratio_grid, values: np.ndarray, save_path):
+
     plt.figure(figsize=(8, 6))
     
-    # 创建热力图
-    plt.imshow(
-        values, cmap='hot', interpolation='nearest', 
-        extent=[min(ratio_grid), max(ratio_grid), max(decay_grid), min(decay_grid)],
-        aspect='auto'
+    img = plt.imshow(values.T, cmap='Blues_r', aspect='auto', interpolation='nearest')
+    
+    plt.xticks(
+        ticks=np.linspace(0, len(decay_grid)-1, len(decay_grid)),
+        labels=decay_grid
+    )
+    plt.yticks(
+        ticks=np.linspace(0, len(ratio_grid)-1, len(ratio_grid)),
+        labels=ratio_grid
     )
     
-    # 添加颜色条
-    plt.colorbar(label='Performance Value')
+    plt.colorbar(img, label='Avg Best Fitness')
+    plt.xlabel('Decay')
+    plt.ylabel('Beta/Alpha')
+    plt.title("Decay & Beta/Alpha Grid Search", fontsize=14)
     
-    # 设置坐标轴
-    plt.xlabel('Beta/Alpha Ratio')
-    plt.ylabel('Decay Rate')
-    plt.title("Decay Ratio and Beta/Alpha Grid Search", fontsize=14)
-    
-    # 确保保存目录存在
     os.makedirs(save_path, exist_ok=True)
-    
-    # 保存图像
     plt.savefig(f'{save_path}/decay_ratio_search_heatmap.png', dpi=300, bbox_inches='tight')
     plt.close()
+
 
 if __name__ == '__main__':
 

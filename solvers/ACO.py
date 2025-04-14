@@ -3,6 +3,9 @@ import copy
 from tqdm import tqdm
 from .solver import *
 
+PHEROMONE_UPDATE_ALTERED = False
+LOCAL_BEST_UPDATE = True
+
 class Ant():
 
     def __init__(
@@ -153,13 +156,24 @@ class AntColonyOptimizer(BaseSolver):
             # 信息素挥发  
             pheromone *= (1 - self.decay)
 
-            # 信息素增加  
+            # 信息素增加
             if best_ant.fitness > 0:
-                edges = set(best_ant.get_visited_edges() + local_best_ant.get_visited_edges())
-                for edge in edges:
-                    pheromone[edge[0], edge[1]] += 1.0
+                if LOCAL_BEST_UPDATE:
+                    edges = set(best_ant.get_visited_edges() + local_best_ant.get_visited_edges())
+                else:
+                    edges = set(best_ant.get_visited_edges())
+                
+                if PHEROMONE_UPDATE_ALTERED:
+                    for edge in edges:
+                        pheromone[edge[0], edge[1]] += 0.9
+                    for item in list(set(best_ant.items_visited + local_best_ant.items_visited)):
+                        if item != 0:
+                            pheromone[:, item] += 0.1
+                else:
+                    for edge in edges:
+                        pheromone[edge[0], edge[1]] += 1.0
+
             pheromones.append(pheromone.copy())
-            
             if self.n_early_stop is not None and \
                 iter - best_solution_iter >= self.n_early_stop:
                 pbar.close()
