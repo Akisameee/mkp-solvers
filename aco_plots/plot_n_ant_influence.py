@@ -18,16 +18,15 @@ def plot_line(x, y, save_path):
     plt.figure(figsize=(8, 5))
 
     # 绘制折线图
-    plt.plot(x, y, label='n_ant')
+    plt.plot(x, y)
 
     # 添加标题和标签
-    plt.title("n_ant Grid Search", fontsize=14)
-    plt.xlabel("Iteration", fontsize=12)
+    plt.title("Parameter Influence - n_ant", fontsize=14)
+    plt.xlabel("n_ant", fontsize=12)
     plt.ylabel("Best Fitness", fontsize=12)
 
-    plt.legend()
     plt.grid(True, linestyle='--', alpha=0.2)
-    plt.savefig(f'{save_path}/n_ant_search_line.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'{save_path}/n_ant_influence.png', dpi=300, bbox_inches='tight')
 
 if __name__ == '__main__':
 

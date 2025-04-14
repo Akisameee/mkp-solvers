@@ -19,7 +19,7 @@ def plot_pheromones(pheromones: np.ndarray, save_path):
 
     # 创建图形
     fig, ax = plt.subplots(figsize=(8, 6))
-
+    
     # 初始化热力图
     im = ax.imshow(pheromones[0, :, :], cmap='hot', interpolation='nearest', vmin=global_min, vmax=global_max)
     cbar = plt.colorbar(im, ax=ax, label='Pheromone')

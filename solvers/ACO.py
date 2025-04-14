@@ -120,6 +120,7 @@ class AntColonyOptimizer(BaseSolver):
         # 初始化信息素
         pheromone = np.full((problem.n, problem.n), 1.0)
         pheromones = []
+        best_fitnesses = []
 
         # 计算启发式信息
         eta = self._calculate_heuristic(problem)
@@ -174,6 +175,7 @@ class AntColonyOptimizer(BaseSolver):
                         pheromone[edge[0], edge[1]] += 1.0
 
             pheromones.append(pheromone.copy())
+            best_fitnesses.append(best_ant.fitness)
             if self.n_early_stop is not None and \
                 iter - best_solution_iter >= self.n_early_stop:
                 pbar.close()
@@ -182,5 +184,6 @@ class AntColonyOptimizer(BaseSolver):
         
         return best_ant.solution, best_ant.fitness, {
             'best_solution_iter': best_solution_iter,
-            'pheromones': np.stack(pheromones, axis = 0)
+            'pheromones': np.stack(pheromones, axis = 0),
+            'best_fitnesses' : best_fitnesses
         }
