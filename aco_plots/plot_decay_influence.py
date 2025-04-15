@@ -33,7 +33,7 @@ aco_params = {
     'num_ants': 10,
     'decay': 0.1,
     'alpha': 1.0,
-    'beta': 1.0,
+    'beta': 0.25,
     'n_early_stop': 200
 }
 

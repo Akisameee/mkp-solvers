@@ -106,8 +106,8 @@ class AntColonyOptimizer(BaseSolver):
     def _calculate_heuristic(self, problem: MKPInstance):
         
         eta = np.zeros((problem.n, problem.n))
-        for item in range(problem.n):
-            weight = (problem.r[:, item] / problem.b).mean()
+        for item in range(1, problem.n):
+            weight = 1 / (problem.r[:, item]).mean()
             eta[:, item].fill(problem.p[item] * weight)
             eta[item, item] = 0
 
