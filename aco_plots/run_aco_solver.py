@@ -1,35 +1,53 @@
+import json
+
+import sys
+sys.path.insert(0, '.')
+
 from solvers import *
 from utils import *
 from mkp_instance import *
 
 aco_params = {
     'max_iter': 1000,
-    'num_ants': 10,
-    'decay': 0.1,
+    'num_ants': 20,
+    'decay': 0.025,
     'alpha': 1.0,
-    'beta': 1.0,
+    'beta': 16.0,
     'n_early_stop': 200
 }
 
-def get_param_grid(base_param: dict, steps: tuple, coordinate: tuple):
-
-    decay_mean = base_param['decay']
-    beta_mean = base_param['beta'] / base_param['alpha']
-
-    offset_params = aco_params.copy()
-    offset_params['decay'] = decay_mean + coordinate[0] * steps[0]
-    offset_params['beta'] = beta_mean + coordinate[1] * steps[1]
-
-    return offset_params
-
 if __name__ == '__main__':
 
-    data_path = './datas/mknap1.txt'
-    instances = read_mkp_file(data_path)
+    res = []
+    for idx in range(1, 10):
 
-    mkp_solver = AntColonyOptimizer(**aco_params)
+        data_name = (f'mknapcb{idx}', 0)
+        data_path = f'./datas/{data_name[0]}.txt'
+        instances = read_mkp_file(data_path)
+        instance = instances[data_name[1]]
 
-    for idx, instance in enumerate(instances):
-        solution, value, stats = mkp_solver.run(instance)
-        print(f'Problem: {idx + 1}\nSolution: {solution}\nValue: {value}\nOptimal: {instance.optimal}')
-        # print(f'Stats: {stats}\n')
+        n_episode = 5
+        best_values = []
+        best_solution_iters = []
+        elapsed_times = []
+        for episode in range(n_episode):
+            mkp_solver = AntColonyOptimizer(**aco_params)
+            solution, value, stats = mkp_solver.run(instance)
+            best_values.append(value)
+            best_solution_iters.append(stats['best_solution_iter'])
+            elapsed_times.append(stats['elapsed_time'])
+
+        avg_value = sum(best_values) / n_episode
+        avg_iter = sum(best_solution_iters) / n_episode
+        avg_elapsed_time = sum(elapsed_times) / n_episode
+
+        res.append({
+            'data_name': data_name[0],
+            'data_idx': data_name[1],
+            'avg_value': avg_value,
+            'avg_iter': avg_iter,
+            'avg_elapsed_time': avg_elapsed_time
+        })
+
+    with open('./aco_plots/aco_results.json', 'w') as f:
+        json.dump(res, f)

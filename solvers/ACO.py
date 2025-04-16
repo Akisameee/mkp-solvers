@@ -185,5 +185,6 @@ class AntColonyOptimizer(BaseSolver):
         return best_ant.solution, best_ant.fitness, {
             'best_solution_iter': best_solution_iter,
             'pheromones': np.stack(pheromones, axis = 0),
-            'best_fitnesses' : best_fitnesses
+            'best_fitnesses' : best_fitnesses,
+            'elapsed_time': pbar.format_dict["elapsed"]
         }
