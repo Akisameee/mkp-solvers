@@ -16,7 +16,7 @@ def plot_lines(ys, labels, save_path):
 
     # 绘制折线图
     for y, label in zip(ys, labels):
-        x = np.linspace(0, 1, len(y))
+        x = np.arange(0, len(y))
         plt.plot(x, y, label=label)
 
     # 添加标题和标签
