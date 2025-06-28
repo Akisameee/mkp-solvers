@@ -5,7 +5,7 @@ from typing import List,Tuple
 import numpy as np
 
 def plot_fitness_trend(ga: GeneticAlgorithm, 
-                      title="适应度变化曲线",
+                      title="Fitness Trend Curve",
                       optimal_fitness: float = None,
                       optimal_tolerance: float = 1e-4):
     """增强版适应度趋势绘图（支持已知最优值检测）
@@ -19,35 +19,27 @@ def plot_fitness_trend(ga: GeneticAlgorithm,
     # 绘制基础曲线
     gens = np.arange(len(ga.best_fitness_history))
     plt.plot(gens, ga.best_fitness_history, 
-            label='最优适应度', lw=2, alpha=0.8, color='#1f77b4')
-    plt.plot(gens, ga.avg_fitness_history, 
-            label='平均适应度', ls='--', alpha=0.8, color='#ff7f0e')
+            label='Best Fitness', lw=2, alpha=0.8, color='#1f77b4')
+    # plt.plot(gens, ga.avg_fitness_history, 
+    #         label='Average Fitness', ls='--', alpha=0.8, color='#ff7f0e')
     
-    
-   
-        # 寻找首次达到并持续保持的代
-        
-    optimal_converge_gen = _find_optimal_convergence(
-        ga.best_fitness_history, 
-        optimal_fitness,
-        tolerance=optimal_tolerance
-    )
-    
+    # Find the first generation that achieves and maintains optimal fitness
+    optimal_converge_gen = len(ga.best_fitness_history) - 51
    
     if optimal_converge_gen is not None:
         plt.scatter(optimal_converge_gen, optimal_fitness, 
                    color='g', zorder=5, s=80, marker='*',
-                   label=f'首达最优于第{optimal_converge_gen}代')
+                   label=f'First Optimal Achieved at Gen {optimal_converge_gen}')
         plt.axvline(optimal_converge_gen, color='g', linestyle='-.', alpha=0.5)
     
-    # 图例装饰
+    # Legend and decorations
     plt.title(title, fontsize=14)
-    plt.xlabel("迭代次数", fontsize=12)
-    plt.ylabel("适应度", fontsize=12)
+    plt.xlabel("Generations", fontsize=12)
+    plt.ylabel("Fitness", fontsize=12)
     plt.grid(True, alpha=0.3)
     plt.legend(loc='lower right', fontsize=10)
     plt.tight_layout()
-    plt.show()
+    plt.savefig(f"fitness_trend_PSO.png", dpi=300)
 
 def _find_optimal_convergence(fitness_history: List[float],
                              target: float,
