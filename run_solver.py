@@ -2,7 +2,7 @@ from solvers import *
 from utils import *
 from mkp_instance import *
 from tqdm import tqdm
-from visualization import plot_fitness_trend
+from ga_visualization import plot_fitness_trend
 
 aco_params = {
     'max_iter': 1000,

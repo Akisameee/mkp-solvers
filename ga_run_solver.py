@@ -1,7 +1,7 @@
 from solvers import *
 from utils import *
 from mkp_instance import *
-from visualization import *
+from ga_visualization import *
 from typing import List, Tuple
 from itertools import product
 import matplotlib.pyplot as plt
